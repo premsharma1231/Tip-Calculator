@@ -6,8 +6,8 @@
     <title>Tip_Calculator</title>
     <link rel="icon" type="image/x-icon" href="./images/favicon-32x32.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -15,41 +15,38 @@
         <img src="./images/logo.svg" alt="">
     </div>
     <div class="container">
-        <div class="subContainer1">
-            <p class="bill" id="billId">Bill</p>
-            <div class="svgFilePic"><img src="./images/icon-dollar.svg" alt=""></div>
-            <input class="inputNumberBill" id="tipPercent2" placeholder="0">
-            <p class="tipPercent" id="selectTip">Select Tip %</p>
-            <div class="buttonsClick">
-                <input type="button" value="5%" class="btn" onclick="
-                let percentValue = 5;
-                passingEmptyValue();
-                console.log(weGot);">
-                <input type="button" value="10%" class="btn" onclick="
-                percentValue = 10;
-                passingEmptyValue();
-                console.log(weGot);">
-                <input type="button" value="15%" class="btn" onclick="
-                percentValue = 15;
-                passingEmptyValue();
-                console.log(weGot);">
-                <input type="button" value="25%" class="btn" onclick="
-                percentValue = 25;
-                passingEmptyValue();
-                console.log(weGot);">
-                <input type="button" value="50%" class="btn" onclick="
-                percentValue = 50;
-                passingEmptyValue();
-                console.log(weGot);">
-                <input placeholder="Custom" class="btn" id="customInput">
+        <form class="tipForm">
+            <div class="subContainer1">
+                <p class="bill" id="billId">Bill</p>
+                <div class="svgFilePic"><img src="./images/icon-dollar.svg" alt=""></div>
+                <input class="inputNumberBill" id="tipPercent2" placeholder="0" min="0" aria-label="Enter Bill Amount">
+                <p class="tipPercent" id="selectTip">Select Tip %</p>
+                <div class="buttonsClick">
+                    <input type="button" value="5%" class="btn" onclick="
+                    handlePercentageClick(5);
+                    ">
+                    <input type="button" value="10%" class="btn" onclick="
+                    handlePercentageClick(10);
+                    ">
+                    <input type="button" value="15%" class="btn" onclick="
+                    handlePercentageClick(15);
+                    ">
+                    <input type="button" value="25%" class="btn" onclick="
+                    handlePercentageClick(25);
+                    ">
+                    <input type="button" value="50%" class="btn" onclick="
+                    handlePercentageClick(50);
+                    ">
+                    <input placeholder="Custom" class="btn" id="customInput" min="0" aria-label="Custom Tip">
+                </div>
+                <div class="makingADiv">
+                    <p class="nopeople">Number of People</p>
+                    <p id="cantBeZero">Can't be zero</p>
+                </div>
+                <div class="svgFilePic2"><img src="./images/icon-person.svg" alt=""></div>
+                <input placeholder="0" class="inputNumberBill" id="inputNumberBill2" type="number" min="1" aria-label="Enter Number of People">
             </div>
-            <div class="makingADiv">
-                <p class="nopeople">Number of People</p>
-                <p id="cantBeZero">Can't be zero</p>
-            </div>
-            <div class="svgFilePic2"><img src="./images/icon-person.svg" alt=""></div>
-            <input placeholder="0" class="inputNumberBill" id="inputNumberBill2">
-        </div>
+        </form>
         <div class="subContainer2">
             <div class="tipAmountdiv">
                 <div class="chalo">

@@ -9,61 +9,84 @@ let printingValuePerPerson = document.getElementById('perPersonAmount');
 let cantBeZero = document.getElementById('cantBeZero');
 
 // Variables for calculations
-let tipPercent21, inputNumberBill21, answerAagya, answerWillBe, percentManual;
+let billAmount = 0;
+let HowManyPersons = 0;
+let percentManual = 0;
+let TotalAmoutAnswer = 0;
 
-// Storing the user total bill amount input in a string and converting it to a number
+// Storing the user total bill amount input and converting it to a number
 tipPercent2.addEventListener('input', () => {
-    tipPercent21 = Number(tipPercent2.value);
-    console.log(tipPercent21);
+    billAmount = parseFloat(tipPercent2.value);
+    return billAmount;
 });
 
 // Storing the user number of persons and converting it to a number
 inputNumberBill2.addEventListener('input', () => {
-    inputNumberBill21 = Number(inputNumberBill2.value);
-    console.log(inputNumberBill21);
+    HowManyPersons = parseFloat(inputNumberBill2.value);
+    checkZero();
+    return HowManyPersons;
 });
+
+// Check if the bill amount or number of people is 0 or invalid
+function checkZero() {
+    if (isNaN(billAmount) || billAmount <= 0) {
+        tipPercent2.style.borderColor = "orangered";
+        cantBeZero.style.display = "block";
+        cantBeZero.innerText = "Bill can't be zero";
+    } else if (isNaN(HowManyPersons) || HowManyPersons <= 0) {
+        inputNumberBill2.style.borderColor = "orangered";
+        cantBeZero.style.display = "block";
+        cantBeZero.innerText = "Can't be zero";
+    } else {
+        cantBeZero.style.display = "none";
+        tipPercent2.style.borderColor = "";
+        inputNumberBill2.style.borderColor = "";
+    }
+}
 
 // Calculating the total tip amount
 function calculateTotalTip(percentValue) {
-    answerAagya = ((tipPercent21 * percentValue) / 100).toFixed(2);
-    printingTotalValue.innerText = `$${answerAagya}`;
-    return answerAagya;
+    // Check for valid inputs first
+    if (billAmount > 0 && HowManyPersons > 0) {
+        TotalAmoutAnswer = ((billAmount * percentValue) / 100).toFixed(2);
+        printingTotalValue.innerText = `$${TotalAmoutAnswer}`;
+        calculateTipPerPerson(TotalAmoutAnswer);
+        return Number(TotalAmoutAnswer);
+    } else {
+        checkZero();
+    }
 }
 
 // Calculating the total tip per person
-function calculateTipPerPerson(totalTip) {
-    answerWillBe = (totalTip / inputNumberBill21).toFixed(2);
-    printingValuePerPerson.innerText = `$${answerWillBe}`;
-    return answerWillBe;
+function calculateTipPerPerson(TotalAmoutAnswer) {
+    if (HowManyPersons > 0) {
+        let TipAmountPerPerson = (TotalAmoutAnswer / HowManyPersons).toFixed(2);
+        printingValuePerPerson.innerText = `$${TipAmountPerPerson}`;
+        return TipAmountPerPerson;
+    }
 }
 
 // Handling custom input for tip percentage
 customInput.addEventListener('input', () => {
-    percentManual = Number(customInput.value);
+    percentManual = parseFloat(customInput.value);
     
     if (isNaN(percentManual) || percentManual === '') {
         cantBeZero.style.display = "block";
         cantBeZero.innerText = "Enter a valid number!";
-        return;
+    } else {
+        cantBeZero.style.display = "none";
+    
+        let totalTip = calculateTotalTip(percentManual);
+        calculateTipPerPerson(totalTip);
     }
-
-    // Hide the error message if input is valid
-    cantBeZero.style.display = "none";
-
-    let totalTip = calculateTotalTip(percentManual);
-    calculateTipPerPerson(totalTip);
 });
 
 // Handle case when input is empty or zero
 function passingEmptyValue() {
-    if (inputNumberBill2.value === '' || inputNumberBill2.value === '0' || inputNumberBill21 === 0) {
-        inputNumberBill2.style.borderColor = "orangered";
-        cantBeZero.style.display = "block";
-        cantBeZero.innerText = "Can't be zero";
-    } else if (inputNumberBill21 > 0) {
-        cantBeZero.style.display = "none";
-        inputNumberBill2.style.borderColor = ""; // Reset border color
-        let totalTip = calculateTotalTip(Number(customInput.value) || tipPercent21);
+    if (inputNumberBill2.value === '' || inputNumberBill2.value === '0' || billAmount === 0) {
+        checkZero();
+    } else if (billAmount > 0 && HowManyPersons > 0) {
+        let totalTip = calculateTotalTip(Number(customInput.value) || tipPercent2.value);
         calculateTipPerPerson(totalTip);
     }
 }
@@ -75,4 +98,16 @@ function resetButton() {
     inputNumberBill2.value = '';
     tipPercent2.value = '';
     customInput.value = '';
+    billAmount = 0;
+    HowManyPersons = 0;
+}
+
+// Fixing the percentage button clicks
+function handlePercentageClick(percentValue) {
+    if (billAmount > 0 && HowManyPersons > 0) {
+        let totalTip = calculateTotalTip(percentValue);
+        calculateTipPerPerson(totalTip);
+    } else {
+        checkZero();
+    }
 }
