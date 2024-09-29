@@ -1,87 +1,78 @@
-// This three are user input
+// User inputs
 let tipPercent2 = document.getElementById('tipPercent2');
 let inputNumberBill2 = document.getElementById('inputNumberBill2');
 let customInput = document.getElementById('customInput');
 
-
-// Giving the answer value in page
+// Output fields
 let printingTotalValue = document.getElementById('totalAmounthai');
 let printingValuePerPerson = document.getElementById('perPersonAmount');
-
-
-// This all strings containing formulas
-let tipPercent21;
-let inputNumberBill21;
-let answerAagya;
-let answerWillBe;
-let percentManual;
 let cantBeZero = document.getElementById('cantBeZero');
 
+// Variables for calculations
+let tipPercent21, inputNumberBill21, answerAagya, answerWillBe, percentManual;
 
-// Storing the user total bill amount input in a string and converting it from string to integer using float
-tipPercent2.addEventListener('input', ()=>{
-    tipPercent21 = parseFloat(tipPercent2.value);
+// Storing the user total bill amount input in a string and converting it to a number
+tipPercent2.addEventListener('input', () => {
+    tipPercent21 = Number(tipPercent2.value);
     console.log(tipPercent21);
 });
 
-
-// Storing the user total persons in a string and converting it from string to integer using float
-inputNumberBill2.addEventListener('input', ()=>{
-    inputNumberBill21 = parseFloat(inputNumberBill2.value);
+// Storing the user number of persons and converting it to a number
+inputNumberBill2.addEventListener('input', () => {
+    inputNumberBill21 = Number(inputNumberBill2.value);
     console.log(inputNumberBill21);
 });
 
-
-// Calculating the total tip amount.
-function getValue(percentValue){
-    answerAagya = (((tipPercent21) * percentValue) / 100).toFixed(2);
-    document.getElementById('totalAmounthai').innerText = `$${answerAagya}`;
+// Calculating the total tip amount
+function calculateTotalTip(percentValue) {
+    answerAagya = ((tipPercent21 * percentValue) / 100).toFixed(2);
+    printingTotalValue.innerText = `$${answerAagya}`;
     return answerAagya;
 }
 
-
-// Calculating the total tip amount per person.
-function getValuePerPerson(weGot){ 
-    answerWillBe = ((weGot / inputNumberBill21)).toFixed(2);
-    document.getElementById('perPersonAmount').innerText = `$${answerWillBe}`;
+// Calculating the total tip per person
+function calculateTipPerPerson(totalTip) {
+    answerWillBe = (totalTip / inputNumberBill21).toFixed(2);
+    printingValuePerPerson.innerText = `$${answerWillBe}`;
     return answerWillBe;
 }
 
-
-// Getting the user percentage input in a string and converting it into a integer
-customInput.addEventListener('input', ()=>{
-    percentManual = parseFloat(((customInput.value)*100)/100);
-    answerAagya = ((parseFloat(tipPercent21) * percentManual) / 100).toFixed(2);
-    answerWillBe = (parseFloat(answerAagya / inputNumberBill21)).toFixed(2);
-    printingTotalValue.innerText = `$${answerAagya}`;
-    printingValuePerPerson.innerText = `$${answerWillBe}`;
-    if(customInput != parseFloat){
+// Handling custom input for tip percentage
+customInput.addEventListener('input', () => {
+    percentManual = Number(customInput.value);
+    
+    if (isNaN(percentManual) || percentManual === '') {
         cantBeZero.style.display = "block";
-        cantBeZero.innerText = "Enter a number!";
-    } 
-    if(customInput.value > 0){
-        cantBeZero.style.display = "none";
+        cantBeZero.innerText = "Enter a valid number!";
+        return;
     }
+
+    // Hide the error message if input is valid
+    cantBeZero.style.display = "none";
+
+    let totalTip = calculateTotalTip(percentManual);
+    calculateTipPerPerson(totalTip);
 });
 
-function passingEmptyValue(){
-    if(inputNumberBill2.value === '' || inputNumberBill2.value === '0' || inputNumberBill21 == '' || inputNumberBill21 == 0){
+// Handle case when input is empty or zero
+function passingEmptyValue() {
+    if (inputNumberBill2.value === '' || inputNumberBill2.value === '0' || inputNumberBill21 === 0) {
         inputNumberBill2.style.borderColor = "orangered";
         cantBeZero.style.display = "block";
         cantBeZero.innerText = "Can't be zero";
-    } else if(inputNumberBill21 > 0){
+    } else if (inputNumberBill21 > 0) {
         cantBeZero.style.display = "none";
-        inputNumberBill2.style.borderColor = "white";
-        weGot = getValue(percentValue);
-        valuePerPerson = getValuePerPerson(weGot);
+        inputNumberBill2.style.borderColor = ""; // Reset border color
+        let totalTip = calculateTotalTip(Number(customInput.value) || tipPercent21);
+        calculateTipPerPerson(totalTip);
     }
-}   
+}
 
-// This is reset Button..
-function resetButton(){
+// Reset button functionality
+function resetButton() {
     printingValuePerPerson.innerText = `$0.00`;
     printingTotalValue.innerText = `$0.00`;
-    document.getElementById('inputNumberBill2').value = '';
-    document.getElementById('tipPercent2').value = '';
-    document.getElementById('customInput').value = '';
+    inputNumberBill2.value = '';
+    tipPercent2.value = '';
+    customInput.value = '';
 }
