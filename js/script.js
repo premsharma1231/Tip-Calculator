@@ -74,8 +74,7 @@ customInput.addEventListener('input', () => {
         cantBeZero.style.display = "block";
         cantBeZero.innerText = "Enter a valid number!";
     } else {
-        cantBeZero.style.display = "none";
-    
+        cantBeZero.style.display = "none"; 
         let totalTip = calculateTotalTip(percentManual);
         calculateTipPerPerson(totalTip);
     }
@@ -87,7 +86,7 @@ function passingEmptyValue() {
         checkZero();
     } else if (billAmount > 0 && HowManyPersons > 0) {
         let totalTip = calculateTotalTip(Number(customInput.value) || tipPercent2.value);
-        calculateTipPerPerson(totalTip);
+        // calculateTipPerPerson(totalTip);
     }
 }
 

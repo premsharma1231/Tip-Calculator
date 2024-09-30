@@ -1,0 +1,37 @@
+.header{
+    transform: translate(5%, -30%);
+    width: 100px;
+    margin: 70px auto 50px auto;
+}
+
+.container{
+    width: 280px;
+    flex-direction: column;
+    height: 675px;
+}
+
+.subContainer2{
+    margin: 0px 20px 0px 20px;
+    width: 210px;
+}
+
+.subContainer1{
+    width: 250px;
+    padding: 30px 0px 30px 0px;
+}
+
+.btn{
+    width: 75px;
+}
+
+.inputNumberBill{
+    width: 240px;
+}
+
+.buttonsClick{
+    grid-template-columns: repeat(3, 77px);
+}
+
+#resetButton{
+    width: 210px;
+}
